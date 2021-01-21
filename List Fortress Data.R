@@ -45,6 +45,11 @@ participants$points <- lapply(lists, "[[", 'points')
 #Dropping list columns
 participants <- select(participants, 1:9, 13,14)
 
+#Convert factions and points to appropriate form
+participants$factions <- as.character(participants$factions)
+participants$points <- unlist(participants$points)
+participants$points <- as.numeric(participants$points)
+
 #Merge back in tournament location and date
 
 participants <- merge(participants, tournaments[,c('id', 'state', 'country', 'date', 'format_id')], by.x = 'tournament_id', by.y = 'id', all.x = T)
