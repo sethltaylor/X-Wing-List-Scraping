@@ -1,11 +1,10 @@
 library(httr)
 library(jsonlite)
 library(httr)
+library(plyr)
 library(dplyr)
 library(purrr)
 library(tidyr)
-library(tibble)
-library(lubridate)
 
 #Scraping list of tournaments
 tournaments <- GET("http://listfortress.com/api/v1/tournaments/")
@@ -57,3 +56,15 @@ participants <- merge(participants, tournaments[,c('id', 'state', 'country', 'da
 #Convering dates
 participants$date <- as.Date(participants$date, "%Y-%m-%d")
 
+#Convert format id 1 = extended, 2 = 2nd edition, 3 = custom, 4 = other, 34 = hyperspace
+participants$format_id <- as.factor(participants$format_id)
+participants$format_id <- mapvalues(participants$format_id, c(1, 2, 3, 4, 34), c('Extended', '2nd Edition', 'Custom', 'Other', 'Hyperspace'))
+
+#Convert factions to factor and fix levels
+participants$factions <- as.factor(participants$factions)
+
+#Tag data prior to last points update
+participants$current <- ifelse(participants$date >= "2020-11-24", "Current Points", "Old Points")
+
+#Remove points greater than 200 and less than 100 
+participants <- participants[participants$points <= 200 & participants$points >=100,]
