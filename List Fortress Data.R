@@ -39,7 +39,7 @@ participants$lists <- map(participants$list_json, fromJSON)
 #Grabbing factions
 participants$factions <- lapply(participants$lists, "[[", 'faction')
 #Grabbing points values 
-participants$points <- lapply(lists, "[[", 'points')
+participants$points <- lapply(participants$lists, "[[", 'points')
 
 #Dropping list columns
 participants <- select(participants, 1:9, 13,14)
