@@ -41,6 +41,22 @@ participants$factions <- lapply(participants$lists, "[[", 'faction')
 #Grabbing points values 
 participants$points <- lapply(participants$lists, "[[", 'points')
 
+#Extracting ship info from pilots dataframe in lists. 
+
+#Extracting ship and id for all pilot dataframes that have ship and id 
+lst1 <- lapply(participants$lists, function(x) {
+  x1 <- x$pilots
+  if(all(c("id", "ship") %in% names(x1))) {
+    x1[c("id", "ship")]
+  }
+})
+#Create index between participants dataframe and list of ship info where length in list of ship info isn't zero
+i1 <- sapply(lst1, NROW) > 0
+#Binding participant id to list of ship info based on index
+lst1[i1] <- Map(cbind, p_id = participants$id[i1], lst1[i1])
+#Binding ship info into dataframe
+shipinfo <- do.call(rbind, lst1)
+
 #Dropping list columns
 participants <- select(participants, 1:9, 13,14)
 
@@ -74,9 +90,3 @@ saveRDS(participants, "Participants.rds")
 
 
 
-##Testing scraping pilot id info
-# pilots <- lapply(participants$lists, "[[", 'pilots')
-##lists[[1]][['pilots']]['id'] - code for grabbing id column from pilots dataframe out of first 
-#ship <- sapply(pilots, '[[', 'ship')
-#ids <- sapply(pilots, '[[', 'id')
-#test <- as.data.frame(cbind(participants$id, as.character(ids), as.character(ship)))
