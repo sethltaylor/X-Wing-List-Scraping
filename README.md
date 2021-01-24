@@ -9,5 +9,6 @@ Future features include:
 - Filtering by country and state (and maybe store)
 - Toggling between data from all lists and lists that have made the top 32 and top 8 in tournaments
 - Selecting tournaments with greater than X amount of players
+- Bids by pilot initiative 
 
 
