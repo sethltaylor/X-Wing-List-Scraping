@@ -71,3 +71,12 @@ participants$current <- ifelse(participants$date >= "2020-11-24", TRUE, FALSE)
 participants <- participants[participants$points <= 200 & participants$points >=100,]
 
 saveRDS(participants, "Participants.rds")
+
+
+
+##Testing scraping pilot id info
+# pilots <- lapply(participants$lists, "[[", 'pilots')
+##lists[[1]][['pilots']]['id'] - code for grabbing id column from pilots dataframe out of first 
+#ship <- sapply(pilots, '[[', 'ship')
+#ids <- sapply(pilots, '[[', 'id')
+#test <- as.data.frame(cbind(participants$id, as.character(ids), as.character(ship)))
