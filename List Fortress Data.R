@@ -46,8 +46,7 @@ participants <- select(participants, 1:9, 13,14)
 
 #Convert factions and points to appropriate form
 participants$factions <- as.character(participants$factions)
-participants$points <- unlist(participants$points)
-participants$points <- as.numeric(participants$points)
+participants$points <- as.numeric(as.character(participants$points))
 
 #Merge back in tournament location and date
 
@@ -62,9 +61,13 @@ participants$format_id <- mapvalues(participants$format_id, c(1, 2, 3, 4, 34), c
 
 #Convert factions to factor and fix levels
 participants$factions <- as.factor(participants$factions)
+participants$factions <- mapvalues(participants$factions, c("firstorder", "galacticempire", 'galacticrepublic', 'rebelalliance', 'resistance', 'scumandvillainy','separatistalliance'),
+                                                          c("First Order", "Empire", "Republic", "Rebels", "Resistance", "Scum", "CIS"))
 
 #Tag data prior to last points update
-participants$current <- ifelse(participants$date >= "2020-11-24", "Current Points", "Old Points")
+participants$current <- ifelse(participants$date >= "2020-11-24", TRUE, FALSE)
 
 #Remove points greater than 200 and less than 100 
 participants <- participants[participants$points <= 200 & participants$points >=100,]
+
+saveRDS(participants, "Participants.rds")
