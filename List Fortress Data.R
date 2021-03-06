@@ -5,6 +5,7 @@ library(plyr)
 library(dplyr)
 library(purrr)
 library(tidyr)
+library(googlesheets4)
 
 #Scraping list of tournaments
 tournaments <- GET("http://listfortress.com/api/v1/tournaments/")
@@ -57,8 +58,22 @@ lst1[i1] <- Map(cbind, p_id = participants$id[i1], lst1[i1])
 #Binding ship info into dataframe
 shipinfo <- do.call(rbind, lst1)
 
+#Reading in sheets with pilot initiatives from googlesheets
+initiative <- read_sheet("https://docs.google.com/spreadsheets/d/1b-IL-_sSAH2hKrmKgrO9hqDtFSjA1xwnJha-SGVff5c/edit#gid=675279571")
+
+
+#Merge intiative list back to ship info
+shipinfo <- merge(shipinfo, initiative, all.x = T)
+#Create max, min, median initiative for each list ID
+list_inits <- shipinfo %>% 
+  group_by(p_id) %>% 
+  summarise(Min = min(initiative), Max = max(initiative), Median = median(initiative))
+
+#Merge initiative summary to participants list
+participants <- merge(participants, list_inits, by.x = 'id', by.y = 'p_id', all.x = T)
+
 #Dropping list columns
-participants <- select(participants, 1:9, 13,14)
+participants <- select(participants, -10, -11,-12)
 
 #Convert factions and points to appropriate form
 participants$factions <- as.character(participants$factions)
@@ -87,6 +102,3 @@ participants$current <- ifelse(participants$date >= "2020-11-24", TRUE, FALSE)
 participants <- participants[participants$points <= 200 & participants$points >=100,]
 
 saveRDS(participants, "Participants.rds")
-
-
-

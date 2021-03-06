@@ -20,7 +20,7 @@ server <- function(input, output) {
     title <- "Distribution of List Points"
     p <- participants %>% 
       filter(date >= input$daterange[1] & date <= input$daterange[2])
-    outlier_cutoff = quantile(p$points,0.75) - 5 * IQR(p$points)
+    outlier_cutoff = quantile(p$points,0.75) - 5 * IQR(p$points) #Wider cutoff for outliers is because most lists fall between 190-200 but we should still want to catch some outliers in the histogram
     index_outlier_ROT = which(p$points<outlier_cutoff)
       hist(p$points[-index_outlier_ROT], main = title, xlab = "Points")
       })
