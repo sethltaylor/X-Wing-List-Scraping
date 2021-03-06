@@ -99,6 +99,6 @@ participants$factions <- mapvalues(participants$factions, c("firstorder", "galac
 participants$current <- ifelse(participants$date >= "2020-11-24", TRUE, FALSE)
 
 #Remove points greater than 200 and less than 100 
-participants <- participants[participants$points <= 200 & participants$points >=100,]
+participants <- participants[which(participants$points <= 200 & participants$points >=100),]
 
 saveRDS(participants, "Participants.rds")
