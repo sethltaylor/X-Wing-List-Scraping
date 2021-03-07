@@ -85,6 +85,8 @@ participants <- merge(participants, tournaments[,c('id', 'state', 'country', 'da
 
 #Convering dates
 participants$date <- as.Date(participants$date, "%Y-%m-%d")
+#fix date
+participants$date[participants$date == '0021-02-15'] <- "2021-02-15"
 
 #Convert format id 1 = extended, 2 = 2nd edition, 3 = custom, 4 = other, 34 = hyperspace
 participants$format_id <- as.factor(participants$format_id)
@@ -95,6 +97,11 @@ participants$factions <- as.factor(participants$factions)
 participants$factions <- mapvalues(participants$factions, c("firstorder", "galacticempire", 'galacticrepublic', 'rebelalliance', 'resistance', 'scumandvillainy','separatistalliance'),
                                                           c("First Order", "Empire", "Republic", "Rebels", "Resistance", "Scum", "CIS"))
 
+#Convert state and country to factor
+
+#Create count of participants at each tournament
+tournamentparticipants  <- participants %>% group_by(tournament_id) %>% count(tournament_id)
+participants <- merge(participants, tournamentparticipants, all.x = T)
 #Tag data prior to last points update
 participants$current <- ifelse(participants$date >= "2020-11-24", TRUE, FALSE)
 
