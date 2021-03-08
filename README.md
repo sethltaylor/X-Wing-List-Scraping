@@ -6,7 +6,7 @@ https://sethltaylor.shinyapps.io/X-Wing-Points-Scraping/
 
 Future features include:
 - ~~Filtering by format (Extended, Hyperspace, Custom)~~ (Complete)
-- ~~Filtering by country and state (and maybe store)
+- Filtering by ~~country~~ and state (and maybe store) (Completed for country)
 - Toggling between data from all lists and lists that have made the top 32 and top 8 in tournaments
 - ~~Selecting tournaments with greater than X amount of players~~ (Complete)
 - ~~Bids by pilot initiative~~ (Complete)
