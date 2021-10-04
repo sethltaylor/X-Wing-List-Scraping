@@ -13,6 +13,9 @@ To assist players in better understanding how their opponents are valuing this t
 https://sethltaylor.shinyapps.io/X-Wing-Points-Scraping/
 
 ## Progress
+
+Update (10/4/21): A recent game design change has eliminated bidding from squad building, so I am ending development of this tool. 
+
 Future features include:
 - ~~Filtering by format (Extended, Hyperspace, Custom)~~ (Complete)
 - Filtering by ~~country~~ and state (and maybe store) (Completed for country)
